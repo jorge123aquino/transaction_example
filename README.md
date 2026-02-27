@@ -4,7 +4,7 @@ Este proyecto es una API REST robusta desarrollada en **Python/Flask** que simul
 
 ## 🚀 Características Técnicas
 
-* **Arquitectura de Microservicios:** Aplicación contenerizada con **Docker** para asegurar portabilidad entre entornos (Oracle linux/Windows).
+* **Arquitectura de Microservicios:** Aplicación contenerizada con **Docker** para asegurar portabilidad entre entornos (Oracle Linux/Windows).
 * **Seguridad y Configuración:** Implementación de variables de entorno (`python-dotenv`) para la gestión segura de credenciales y parámetros de red.
 * **Base de Datos:** Persistencia en **PostgreSQL**, utilizando consultas parametrizadas para prevenir ataques de SQL Injection.
 * **Networking:** Configuración de redes en contenedores para comunicación eficiente entre subredes.
@@ -19,19 +19,23 @@ Este proyecto es una API REST robusta desarrollada en **Python/Flask** que simul
 
 ## 📦 Instalación y Despliegue
 
-1.  **Clonar el repositorio:**
-   ```bash
-   git clone [https://github.com/jorge123aquino/transaction_example.git](https://github.com/jorge123aquino/transaction_example.git)
-
-2. Configurar variables de entorno:
+1. **Clonar el repositorio:**
+```bash
+git clone https://github.com/jorge123aquino/transaction_example.git
+```
+2.Configurar variables de entorno:
 Crear un archivo .env con las credenciales de la base de datos (DB_HOST, DB_NAME, DB_USER, DB_PASS).
 
-3. Construir y ejecutar con Docker:
+3.Construir y ejecutar con Docker:
+
+```bash
 docker build -t spei-api .
 docker run -d --name contenedor-spei -p 5000:5000 spei-api
+```
 
-4. Curl en Powershell
-
+4.Curl en Powershell:
+```bash
+PowerShell
 $body = @{
     monto = 750.00
     origen = "CUENTA-NOMINA"
@@ -39,3 +43,4 @@ $body = @{
 } | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://<TU_IP>:5000/transferir" -Method Post -Body $body -ContentType "application/json"
+```

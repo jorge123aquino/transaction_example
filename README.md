@@ -44,29 +44,29 @@ $body = @{
 
 Invoke-RestMethod -Uri "http://<TU_IP>:5000/transferir" -Method Post -Body $body -ContentType "application/json"
 ```
+## 📊 Arquitectura del Sistema
 
+```mermaid
 graph TD
-    %% Define los estilos para los diferentes componentes
-    classDef client fill:#f9f,stroke:#333,stroke-width:2px,color:black;
-    classDef host fill:#bbf,stroke:#333,stroke-width:2px,color:black;
-    classDef container fill:#dfd,stroke:#333,stroke-width:2px,color:black;
-    classDef database fill:#fdd,stroke:#333,stroke-width:2px,color:black;
+    %% Define los estilos
+    classDef client fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef host fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef container fill:#dfd,stroke:#333,stroke-width:2px;
+    classDef database fill:#fdd,stroke:#333,stroke-width:2px;
 
-    %% Define los nodos y sus etiquetas
-    subgraph Client_Network [Red del Cliente (Segmento .3)]
-        PowerShell_Client[Cliente Windows (PowerShell/Curl)]:::client
+    subgraph Client_Network [Red del Cliente - Segmento .3]
+        PowerShell_Client[Cliente Windows/PowerShell]:::client
     end
 
-    subgraph Oracle_Linux_Host [Oracle Linux Host (192.168.3.118)]:::host
+    subgraph Oracle_Linux_Host [Oracle Linux Host - 192.168.3.118]:::host
         Docker_Engine[Docker Engine]:::host
-        PostgreSQL_DB[(PostgreSQL DB: postgres)]:::database
+        PostgreSQL_DB[(PostgreSQL DB)]:::database
         
-        subgraph Docker_Network [Red de Docker Bridge]:::container
-            SPEI_API_Container[Contenedor spei-api (Flask)]:::container
+        subgraph Docker_Network [Red Bridge de Docker]:::container
+            SPEI_API_Container[Contenedor spei-api]:::container
         end
     end
 
-    %% Define las conexiones y sus etiquetas (flujo de red)
     PowerShell_Client -- "POST /transferir (Puerto 5000)" --> Oracle_Linux_Host
-    Oracle_Linux_Host -- "Port Forwarding (5000:5000)" --> SPEI_API_Container
-    SPEI_API_Container -- "Conexión a la DB (Host: 192.168.3.118, Puerto 5432)" --> PostgreSQL_DB
+    Oracle_Linux_Host -- "Redirección 5000:5000" --> SPEI_API_Container
+    SPEI_API_Container -- "TCP 5432 (Segmento .3)" --> PostgreSQL_DB

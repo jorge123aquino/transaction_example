@@ -23,17 +23,17 @@ Este proyecto es una API REST robusta desarrollada en **Python/Flask** que simul
 ```bash
 git clone https://github.com/jorge123aquino/transaction_example.git
 ```
-2.Configurar variables de entorno:
+2. **Configurar variables de entorno:**
 Crear un archivo .env con las credenciales de la base de datos (DB_HOST, DB_NAME, DB_USER, DB_PASS).
 
-3.Construir y ejecutar con Docker:
+3. **Construir y ejecutar con Docker:**
 
 ```bash
 docker build -t spei-api .
 docker run -d --name contenedor-spei -p 5000:5000 spei-api
 ```
 
-4.Curl en Powershell:
+4. **Curl en Powershell:**
 ```bash
 PowerShell
 $body = @{

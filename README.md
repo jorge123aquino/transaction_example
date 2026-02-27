@@ -44,28 +44,3 @@ $body = @{
 
 Invoke-RestMethod -Uri "http://<TU_IP>:5000/transferir" -Method Post -Body $body -ContentType "application/json"
 ```
-## 📊 Arquitectura del Sistema
-
-```mermaid
-graph TD
-    classDef cl fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef ho fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef co fill:#dfd,stroke:#333,stroke-width:2px;
-    classDef da fill:#fdd,stroke:#333,stroke-width:2px;
-
-    subgraph Cliente [Red Segmento .3]
-        C[Cliente Windows PowerShell]:::cl
-    end
-
-    subgraph Servidor [Oracle Linux Host]
-        D[Docker Engine]:::ho
-        DB[(PostgreSQL)]:::da
-        
-        subgraph Red_Docker [Bridge Network]
-            API[Contenedor spei-api]:::co
-        end
-    end
-
-    C -- "POST Puerto 5000" --> D
-    D -- "Forwarding 5000" --> API
-    API -- "TCP 5432" --> DB

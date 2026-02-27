@@ -48,25 +48,24 @@ Invoke-RestMethod -Uri "http://<TU_IP>:5000/transferir" -Method Post -Body $body
 
 ```mermaid
 graph TD
-    %% Define los estilos
-    classDef client fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef host fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef container fill:#dfd,stroke:#333,stroke-width:2px;
-    classDef database fill:#fdd,stroke:#333,stroke-width:2px;
+    classDef cl fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef ho fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef co fill:#dfd,stroke:#333,stroke-width:2px;
+    classDef da fill:#fdd,stroke:#333,stroke-width:2px;
 
-    subgraph Client_Network [Red del Cliente - Segmento .3]
-        PowerShell_Client[Cliente Windows/PowerShell]:::client
+    subgraph Cliente [Red Segmento .3]
+        C[Cliente Windows PowerShell]:::cl
     end
 
-    subgraph Oracle_Linux_Host [Oracle Linux Host - 192.168.3.118]:::host
-        Docker_Engine[Docker Engine]:::host
-        PostgreSQL_DB[(PostgreSQL DB)]:::database
+    subgraph Servidor [Oracle Linux Host]
+        D[Docker Engine]:::ho
+        DB[(PostgreSQL)]:::da
         
-        subgraph Docker_Network [Red Bridge de Docker]:::container
-            SPEI_API_Container[Contenedor spei-api]:::container
+        subgraph Red_Docker [Bridge Network]
+            API[Contenedor spei-api]:::co
         end
     end
 
-    PowerShell_Client -- "POST /transferir (Puerto 5000)" --> Oracle_Linux_Host
-    Oracle_Linux_Host -- "Redirección 5000:5000" --> SPEI_API_Container
-    SPEI_API_Container -- "TCP 5432 (Segmento .3)" --> PostgreSQL_DB
+    C -- "POST Puerto 5000" --> D
+    D -- "Forwarding 5000" --> API
+    API -- "TCP 5432" --> DB

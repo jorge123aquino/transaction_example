@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Docker
+.dockerignore
+
+# Sistemas Operativos
+.DS_Store
+Thumbs.db
+
+# Logs del sistema
+*.log
